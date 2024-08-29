@@ -10,4 +10,3 @@ const connectDB = (url) => {
 }
 
 module.exports = connectDB
-// mongodb://localhost:27017/
