@@ -10,7 +10,6 @@ const orderItemSchema = new mongoose.Schema({
     }
 })
 
-
 const orderSchema = new mongoose.Schema({
     orderPrice: {
         type: Number,
