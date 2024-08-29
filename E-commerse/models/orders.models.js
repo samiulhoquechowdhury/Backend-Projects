@@ -1,10 +1,10 @@
 const mongoose = requre('mongoose')
 const orderItemSchema = new mongoose.Schema({
     productId: {
-        type:mongoose.Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Producct"
     },
-    quantity:{
+    quantity: {
         type: Number,
         required: true
     }
@@ -27,8 +27,8 @@ const orderSchema = new mongoose.Schema({
         required: true
     },
     status: {
-        type : String,
+        type: String,
         enum: ["PENDING", "CANCELLED", "DELIVERED"],
         default: "PENDING"
     }
-},{timestamps: true})
+}, { timestamps: true })

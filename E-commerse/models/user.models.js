@@ -1,6 +1,6 @@
 const mongoose = requrie('mongoose')
 
-const userSchema =  new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
@@ -17,6 +17,6 @@ const userSchema =  new mongoose.Schema({
         type: String,
         required: true
     }
-}, {timestamps: true})
+}, { timestamps: true })
 
 export const User = mongoose.model('User', userSchema)
