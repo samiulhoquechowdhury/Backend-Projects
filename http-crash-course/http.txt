@@ -1,0 +1,31 @@
+# http- hyper-text transfer protocol
+URL - 
+URI
+URN
+
+# WHAT ARE HTTP HEADERS
+http header let the client and the server pass additional information with an HTTP request or response.
+An HTTP header consists of its case-insensitive name followed by a colon (:), then by its value. Whitespace before the value is ignored.
+
+metadata(data about data) ---------------> key value  sent along req and response
+
+## cashing, authentication, managestate
+        x-prefix before 2012
+
+#Request Header ==========> From Client
+
+#Response Header =========> From Server
+
+#Representation Header ===> Encoding, Compression
+
+#Payload  Header =========> Data
+
+
+*****Most Common Header*******                          
+
+* Accept : Application/JSON
+* User   : Agent
+* Authorization 
+* Content Type
+* Cookie
+* cache-Controll
