@@ -1,33 +1,65 @@
+// require('dotenv').config();
+// require('express-async-errors');
+
+// const express = require('express');
+// const app = express();
+
+// // controller
+// const stripeController = require('./controllers/stripeController');
+// // error handler
+// const notFoundMiddleware = require('./middleware/not-found');
+// const errorHandlerMiddleware = require('./middleware/error-handler');
+
+// app.use(express.json());
+// app.use(express.static('./public'));
+
+// // stripe
+// app.post('/stripe', stripeController);
+// app.use(notFoundMiddleware);
+// app.use(errorHandlerMiddleware);
+
+// const port = process.env.PORT || 5000;
+
+// const start = async () => {
+//     try {
+//         app.listen(port, () =>
+//             console.log(`Server is listening on port ${port}...`)
+//         );
+//     } catch (error) {
+//         console.log(error);
+//     }
+// };
+
+// start();
+
+
+
 require('dotenv').config();
 require('express-async-errors');
 
-const express = require('express');
+
+const express = require('express')
 const app = express();
 
-// controller
-const stripeController = require('./controllers/stripeController');
-// error handler
-const notFoundMiddleware = require('./middleware/not-found');
-const errorHandlerMiddleware = require('./middleware/error-handler');
+//controller
+const stripeController = 
 
-app.use(express.json());
+app.use('express.json')
 app.use(express.static('./public'));
 
-// stripe
-app.post('/stripe', stripeController);
-app.use(notFoundMiddleware);
-app.use(errorHandlerMiddleware);
+//stripe
+// app.post('/stripe', stripeController)
 
-const port = process.env.PORT || 5000;
+const port = process.envn.PORT || 5000;
 
-const start = async () => {
+const start = () => {
     try {
-        app.listen(port, () =>
-            console.log(`Server is listening on port ${port}...`)
-        );
+        app.listen(port, () => {
+            console.log(`Serever is starting at port ${port}`);
+        })
     } catch (error) {
-        console.log(error);
+        console.log("error")
     }
-};
+}
 
 start();
