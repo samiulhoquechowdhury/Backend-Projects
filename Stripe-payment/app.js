@@ -42,7 +42,10 @@ const express = require('express')
 const app = express();
 
 //controller
-const stripeController = 
+const stripeController = require('./controllers/stripeController')
+
+// error
+
 
 app.use('express.json')
 app.use(express.static('./public'));
