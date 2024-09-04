@@ -5,6 +5,9 @@ const express = require('express')
 const app = express();
 
 //routes
+const mainRouter = require('./routes/main')
+const notFoundMiddleware = require('./middleware/notFoundMiddleware')
+const errorHandlerMiddleware = require('./middleware/')
 
 const port = process.env.PORT || 5000
 
