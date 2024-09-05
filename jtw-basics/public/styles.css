@@ -1,4 +1,4 @@
-/* *,
+*,
 ::after,
 ::before {
   box-sizing: border-box;
@@ -291,4 +291,4 @@ ul {
 }
 .text-success {
   color: var(--green-dark);
-} */
+}
