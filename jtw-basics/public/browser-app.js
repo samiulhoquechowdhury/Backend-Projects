@@ -67,4 +67,4 @@ const checkToken = () => {
     tokenDOM.classList.add('text-success')
   }
 }
-checkToken()
+checkToken();
