@@ -1,16 +1,41 @@
+import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
 const Login = () => {
+  const history = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  async function submit(e){
+
+  async function submit(e) {
     e.preventDefault();
+
+    try {
+      await axios
+        .post("http://localhost:8000/", {
+          email,
+          password,
+        })
+        .then((res) => {
+          if (res.data == "exist") {
+            history("/home", { state: { id: email } });
+          } else if (res.data == "notexist") {
+            alert("User have not sign up");
+          }
+        })
+        .catch((e) => {
+          alert("wrong details");
+          console.log(e);
+        });
+    } catch (e) {
+      console.log(e);
+    }
   }
+
   return (
     <div>
       <h1>Login</h1>
-      <form action="POST">
+      <form onSubmit={submit}>
         <input
           type="email"
           placeholder="nicola@gmail.com"
@@ -31,10 +56,9 @@ const Login = () => {
       <br />
       <p>OR</p>
       <br />
-      <Link to={/signup}>Signup Page</Link>
-
+      <Link to="/signup">Signup Page</Link>
     </div>
   );
 };
 
-export default Login;
+module.exports = Login;

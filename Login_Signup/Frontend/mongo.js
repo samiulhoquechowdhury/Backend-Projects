@@ -6,3 +6,17 @@ mongoose.connect('mongodb://localhost:27017/Login-signup')
 .catch(()=>{
     console.log("Connection Failed")
 })
+
+const newSchema = new mongoose.Schema({
+    email: {
+        type: String,
+        required:true
+    },
+    password: {
+        type: String,
+        required: true 
+    }
+})
+
+const Collection = mongoose.model('Collection', newSchema)
+module.exports = Collection
