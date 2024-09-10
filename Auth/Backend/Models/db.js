@@ -1,10 +1,10 @@
-const mongoose = require('mongoose')
-const MONGO_URL = process.env.MONGO_CONN
+const mongoose = require('mongoose');
 
-mongoose.connect(MONGO_URL)
+const mongo_url = process.env.MONGO_CONN;
+
+mongoose.connect(mongo_url)
     .then(() => {
-        console.log('Database connected..');
-    }).catch((error) => {
-        console.log("Database connection failed:", error);
+        console.log('MongoDB Connected...');
+    }).catch((err) => {
+        console.log('MongoDB Connection Error: ', err);
     })
-module.exports = router;

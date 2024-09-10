@@ -1,5 +1,5 @@
 const mongoose=require("mongoose")
-mongoose.connect("mongodb://localhost:27017/Login-signup")
+mongoose.connect('mongodb+srv://samiulofficialworks:odtmh4WaLmXYxYg5@cluster0.rbv7y.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
 .then(()=>{
     console.log("Database connected");
 })

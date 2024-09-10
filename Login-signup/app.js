@@ -13,7 +13,7 @@ app.get("/", cors(), (req, res) => {
 
 })
 
-app.post("/", async (req, res) => {
+app.post("/login", async (req, res) => {
     const { email, password } = req.body
     try {
         const check = await collection.findOne({ email: email })
