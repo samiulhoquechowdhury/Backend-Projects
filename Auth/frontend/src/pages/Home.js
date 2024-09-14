@@ -56,7 +56,7 @@ function Home() {
             </div>
             <h1 className='welcome'>Welcome <span className='welcomeName'>{loggedInUser}</span></h1>
 
-            <div>
+            {/* <div>
                 {
                     products && products?.map((item, index) => (
                         <ul key={index}>
@@ -64,7 +64,7 @@ function Home() {
                         </ul>
                     ))
                 }
-            </div>
+            </div> */}
             <ToastContainer />
         </div>
     )

@@ -24,7 +24,7 @@ function Login() {
         e.preventDefault();
         const { email, password } = loginInfo;
         if (!email || !password) {
-            return handleError('email and password are required')
+            return handleError('Email and Password are required')
         }
         try {
             const url = `http://localhost:8080/auth/login`;
