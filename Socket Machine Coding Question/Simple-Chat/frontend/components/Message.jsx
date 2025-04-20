@@ -5,7 +5,7 @@ function Message({ message, currentUser }) {
     <div className={`flex ${isSelf ? "justify-end" : "justify-start"} mb-2`}>
       <div
         className={`rounded-lg px-4 py-2 max-w-xs break-words shadow ${
-          isSelf ? "bg-blue-500 text-white" : "bg-gray-200 text-black"
+          isSelf ? "bg-green-400 text-white" : "bg-blue-400 text-black"
         }`}
       >
         {!isSelf && (

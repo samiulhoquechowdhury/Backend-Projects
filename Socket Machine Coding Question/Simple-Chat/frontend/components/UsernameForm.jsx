@@ -1,28 +1,40 @@
+import { useState } from "react";
+import io from "socket.io-client";
+
+const socket = io(import.meta.env.VITE_BACKEND_URL);
+
 function UsernameForm({ setUsername }) {
+  const [input, setInput] = useState("");
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const input = e.target.username.value.trim();
-    if (input !== "") {
-      setUsername(input);
+    const trimmedInput = input.trim();
+    if (trimmedInput !== "") {
+      setUsername(trimmedInput);
+      socket.emit("new_user", trimmedInput);
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100 px-4">
-      <div className="bg-white p-6 rounded-xl shadow-md w-full max-w-sm">
-        <h2 className="text-2xl font-bold mb-4 text-center">
-          Enter your username
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 px-4">
+      <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-sm animate-fade-in">
+        <h2 className="text-3xl font-bold text-center mb-6 text-gray-700">
+          Enter Your Username
         </h2>
-        <form onSubmit={handleSubmit}>
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <input
             type="text"
             name="username"
-            placeholder="Your name"
-            className="w-full px-4 py-2 border rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            placeholder="Your name..."
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent transition"
           />
+
           <button
             type="submit"
-            className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded transition"
+            className="w-full bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white font-semibold py-3 rounded-lg shadow-md transition"
           >
             Join Chat
           </button>

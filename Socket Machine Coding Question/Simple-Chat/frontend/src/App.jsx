@@ -11,8 +11,10 @@ function App() {
   const [message, setMessage] = useState("");
   const [someoneTyping, setSomeoneTyping] = useState(false);
   const [typingUser, setTypingUser] = useState("");
+  const [onlineUsers, setOnlineUsers] = useState([]);
 
-  const inputRef = useRef(null); // for auto-focus
+  const inputRef = useRef(null);
+  let typingTimeout;
 
   useEffect(() => {
     socket.on("receive_message", (data) => {
@@ -29,11 +31,15 @@ function App() {
       setTypingUser("");
     });
 
-    // Clean up when component unmounts
+    socket.on("online_users", (users) => {
+      setOnlineUsers(users);
+    });
+
     return () => {
       socket.off("receive_message");
       socket.off("user_typing");
       socket.off("user_stop_typing");
+      socket.off("online_users");
     };
   }, []);
 
@@ -44,12 +50,10 @@ function App() {
       socket.emit("stop_typing");
       setMessage("");
       if (inputRef.current) {
-        inputRef.current.focus(); // auto-focus input after sending
+        inputRef.current.focus();
       }
     }
   };
-
-  let typingTimeout;
 
   const handleTyping = () => {
     socket.emit("typing", username);
@@ -57,43 +61,71 @@ function App() {
     clearTimeout(typingTimeout);
     typingTimeout = setTimeout(() => {
       socket.emit("stop_typing");
-    }, 1000); // stops typing after 1 sec idle
+    }, 1000);
   };
 
   if (!username) return <UsernameForm setUsername={setUsername} />;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      <div className="w-full max-w-2xl">
-        <h1 className="text-3xl font-bold text-center mb-4">Real-Time Chat</h1>
+    <div className="flex min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+      {/* Sidebar */}
+      <div className="hidden md:flex w-1/4 bg-gray-800 p-6 flex-col border-r border-gray-700">
+        <h2 className="text-2xl font-bold mb-6 text-center">Online Users</h2>
+        <ul className="space-y-5 overflow-y-auto flex-1">
+          {onlineUsers.map((user, idx) => (
+            <li key={idx} className="flex items-center gap-3 text-gray-300">
+              <span className="w-3 h-3 bg-green-400 rounded-full"></span>
+              <span className="truncate">{user}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
 
-        <ChatBox chat={chat} username={username} />
-
-        {someoneTyping && (
-          <div className="text-sm text-gray-500 mb-2">
-            {typingUser} is typing...
+      {/* Chat Area */}
+      <div className="flex-1 flex flex-col p-6">
+        <div className="flex-1 flex flex-col overflow-hidden bg-gray-800 rounded-2xl shadow-md">
+          {/* Header */}
+          <div className="p-4 border-b border-gray-700 text-center text-xl font-semibold">
+            Group Chat
           </div>
-        )}
 
-        <form onSubmit={sendMessage} className="flex gap-2">
-          <input
-            type="text"
-            placeholder="Type your message..."
-            className="flex-1 border p-2 rounded focus:outline-none"
-            value={message}
-            ref={inputRef}
-            onChange={(e) => {
-              setMessage(e.target.value);
-              handleTyping();
-            }}
-          />
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          {/* Messages */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <ChatBox chat={chat} username={username} />
+
+            {/* Typing indicator inside chat flow */}
+            {someoneTyping && (
+              <div className="flex items-center gap-2 text-gray-400 text-sm animate-pulse">
+                <span className="inline-block w-2 h-2 bg-green-400 rounded-full"></span>
+                {typingUser} is typing...
+              </div>
+            )}
+          </div>
+
+          {/* Message input */}
+          <form
+            onSubmit={sendMessage}
+            className="flex gap-3 p-4 border-t border-gray-700 bg-gray-800"
           >
-            Send
-          </button>
-        </form>
+            <input
+              type="text"
+              placeholder="Type your message..."
+              className="flex-1 bg-gray-700 border border-gray-600 rounded-full px-5 py-3 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+              value={message}
+              ref={inputRef}
+              onChange={(e) => {
+                setMessage(e.target.value);
+                handleTyping();
+              }}
+            />
+            <button
+              type="submit"
+              className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-full transition font-semibold"
+            >
+              Send
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

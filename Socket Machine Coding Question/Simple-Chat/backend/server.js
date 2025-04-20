@@ -16,16 +16,22 @@ const io = new Server(server, {
   },
 });
 
-io.on("connection", (socket) => {
-  console.log(`User Connected: ${socket.id}`);
+const onlineUsers = {};
 
-  socket.broadcast.emit("receive_message", {
-    username: "Server",
-    message: "A user has joined the chat",
+io.on("connection", (socket) => {
+  console.log("A user connected");
+
+  socket.on("new_user", (username) => {
+    onlineUsers[socket.id] = username;
+    io.emit("online_users", Object.values(onlineUsers));
+  });
+
+  socket.on("disconnect", () => {
+    delete onlineUsers[socket.id];
+    io.emit("online_users", Object.values(onlineUsers));
   });
 
   socket.on("send_message", (data) => {
-    console.log(data);
     io.emit("receive_message", data);
   });
 
@@ -36,18 +42,6 @@ io.on("connection", (socket) => {
   socket.on("stop_typing", () => {
     socket.broadcast.emit("user_stop_typing");
   });
-
-  socket.on("disconnect", () => {
-    console.log("User Disconnected", socket.id);
-    io.emit("receive_message", {
-      username: "Server",
-      message: "A user has left the chat",
-    });
-  });
-});
-
-app.get("/", (req, res) => {
-  res.send("Server is running!");
 });
 
 const PORT = process.env.PORT || 3000;
