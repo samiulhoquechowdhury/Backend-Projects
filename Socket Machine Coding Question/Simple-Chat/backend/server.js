@@ -32,7 +32,16 @@ io.on("connection", (socket) => {
   });
 
   socket.on("send_message", (data) => {
+    // Broadcast the message to everyone
     io.emit("receive_message", data);
+
+    // Emit message_delivered event after a slight delay (to simulate message delivery)
+    setTimeout(() => {
+      io.emit("message_delivered", {
+        username: data.username,
+        message: data.message,
+      });
+    }, 2000); // Delay of 2 seconds to simulate delivery
   });
 
   socket.on("typing", (username) => {

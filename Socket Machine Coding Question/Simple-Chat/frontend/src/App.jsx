@@ -18,7 +18,11 @@ function App() {
 
   useEffect(() => {
     socket.on("receive_message", (data) => {
-      setChat((prevChat) => [...prevChat, data]);
+      // Add the message to chat with `sent: true` initially
+      setChat((prevChat) => [
+        ...prevChat,
+        { ...data, sent: true, delivered: false },
+      ]);
     });
 
     socket.on("user_typing", (username) => {
@@ -35,11 +39,23 @@ function App() {
       setOnlineUsers(users);
     });
 
+    socket.on("message_delivered", (data) => {
+      // Update the message status to delivered
+      setChat((prevChat) =>
+        prevChat.map((message) =>
+          message.message === data.message && message.username === data.username
+            ? { ...message, delivered: true }
+            : message
+        )
+      );
+    });
+
     return () => {
       socket.off("receive_message");
       socket.off("user_typing");
       socket.off("user_stop_typing");
       socket.off("online_users");
+      socket.off("message_delivered");
     };
   }, []);
 
